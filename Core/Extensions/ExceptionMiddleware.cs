@@ -52,6 +52,7 @@ namespace Core.Extensions
                 }.ToString());
             }
 
+
             return httpContext.Response.WriteAsync(new ErrorDetails
             {
                 StatusCode = httpContext.Response.StatusCode,

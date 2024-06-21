@@ -2,8 +2,8 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
+using Core.Aspects.Autofac.Caching;
 using Core.CrossCuttingConcerns.Caching;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -33,7 +33,7 @@ namespace Business.Concrete
 
         //00.25 Dersteyiz
         //Claim
-        //[SecuredOperation("product.add,admin")]
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         //[CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
@@ -104,7 +104,7 @@ namespace Business.Concrete
             var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
             if (result >= 15)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.ProductCountOutOfLimit);
             }
             return new SuccessResult();
         }
@@ -124,7 +124,7 @@ namespace Business.Concrete
             var result = _categoryService.GetAll();
             if (result.Data.Count > 15)
             {
-                return new ErrorResult();
+                return new ErrorResult(Messages.CategoryOutOfLimit);
             }
 
             return new SuccessResult();
